@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
-#include "TriggerComponent.generated.h"
+#include "HeadWearTrigger.generated.h"
 
 /**
  * 
  */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BJD51_API UTriggerComponent : public UBoxComponent
+class BJD51_API UHeadWearTrigger : public UBoxComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UTriggerComponent();
+	UHeadWearTrigger();
 
 protected:
 	// Called when the game starts
@@ -31,10 +31,10 @@ private:
 	FName AcceptableActorTag;
 
 	UPROPERTY()
-	class ATool* Tool;
+	class AWearable* HeadWeard;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<ATool> ToolClass;
+	TSubclassOf<AWearable> HeadWeardClass;
 
 	void CheckAndTrigger();
 };

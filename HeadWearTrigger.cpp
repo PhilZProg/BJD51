@@ -1,21 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TriggerComponent.h"
+#include "HeadWearTrigger.h"
 #include "PlayerCharacter.h"
-#include "Tool.h"
+#include "Wearable.h"
 
-UTriggerComponent::UTriggerComponent()
+UHeadWearTrigger::UHeadWearTrigger()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UTriggerComponent::BeginPlay()
+void UHeadWearTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UHeadWearTrigger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
@@ -23,7 +23,7 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 }
 
 
-void UTriggerComponent::CheckAndTrigger()
+void UHeadWearTrigger::CheckAndTrigger()
 {
     TArray<AActor*> Actors;
     GetOverlappingActors(Actors);
@@ -33,12 +33,12 @@ void UTriggerComponent::CheckAndTrigger()
             
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
-                    if (ToolClass)
+                    if (HeadWeardClass)
                         {
                             APlayerCharacter* OurCharacter = Cast<APlayerCharacter>(Actor);
-                            Tool = GetWorld()->SpawnActor<ATool>(ToolClass);
-                            Tool->AttachToComponent(OurCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
-                            Tool->SetOwner(OurCharacter);
+                            HeadWeard = GetWorld()->SpawnActor<AWearable>(HeadWeardClass);
+                            HeadWeard->AttachToComponent(OurCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("Mask"));
+                            HeadWeard->SetOwner(OurCharacter);
                         }
                     GetOwner()->Destroy();
                 }
