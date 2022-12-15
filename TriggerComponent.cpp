@@ -3,6 +3,8 @@
 
 #include "TriggerComponent.h"
 #include "GameFramework/Actor.h"
+#include "PlayerCharacter.h"
+#include "Tool.h"
 
 UTriggerComponent::UTriggerComponent()
 {
@@ -42,24 +44,6 @@ void UTriggerComponent::SetMover(UMover* NewMover)
     Mover = NewMover;
 }
 
-// AActor* UTriggerComponent::GetAcceptableActor() const
-// {
-//     TArray<AActor*> Actors;
-//     GetOverlappingActors(Actors);
-    
-//     for (AActor* Actor : Actors)
-//         {
-            
-//             if (Actor->ActorHasTag(AcceptableActorTag))
-//                 {
-//                     UE_LOG(LogTemp, Warning, TEXT("overlapped"));
-//                     return Actor;
-//                 }
-//         }
-
-//     return nullptr;
-// }
-
 void UTriggerComponent::GetAcceptableActor()
 {
     TArray<AActor*> Actors;
@@ -70,7 +54,13 @@ void UTriggerComponent::GetAcceptableActor()
             
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
-                    UE_LOG(LogTemp, Warning, TEXT("overlapped"));
+                    if (ToolClass)
+                        {
+                            APlayerCharacter* OurCharacter = Cast<APlayerCharacter>(Actor); 
+                            Tool = GetWorld()->SpawnActor<ATool>(ToolClass);
+                            Tool->AttachToComponent(OurCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
+                            Tool->SetOwner(OurCharacter);
+                        }
                     GetOwner()->Destroy();
                 }
         }

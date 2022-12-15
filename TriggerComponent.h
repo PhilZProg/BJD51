@@ -34,9 +34,13 @@ private:
 	UPROPERTY(EditAnywhere)
 	FName AcceptableActorTag;
 
-	UMover* Mover;
+	UPROPERTY()
+	class ATool* Tool;
 
-	//AActor* GetAcceptableActor() const;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ATool> ToolClass;
+
+	UMover* Mover;
 
 	void GetAcceptableActor();
 };
