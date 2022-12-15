@@ -17,9 +17,6 @@ APickUp::APickUp()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	BaseMesh->SetupAttachment(PickUpRoot);
 
-	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Event Trigger Box"));
-	TriggerBox->SetupAttachment(PickUpRoot);
-
 	SignalLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("Signal Light"));
 	SignalLight->SetupAttachment(PickUpRoot);
 }
@@ -35,6 +32,5 @@ void APickUp::BeginPlay()
 void APickUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 

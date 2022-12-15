@@ -23,9 +23,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	class UBoxComponent* TriggerBox;
-
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
