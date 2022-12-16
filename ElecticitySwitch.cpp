@@ -36,6 +36,11 @@ void AElecticitySwitch::BeginPlay()
 void AElecticitySwitch::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
+void AElecticitySwitch::TurnOff()
+{
+		ButtonSignalLight->SetLightFColor(FColor::Red);
+		ElectroParticles->DestroyComponent();
+		bIsOn = false;
+}

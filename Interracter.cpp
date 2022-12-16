@@ -3,6 +3,8 @@
 
 #include "Interracter.h"
 
+#include "ElecticitySwitch.h"
+
 // Sets default values for this component's properties
 UInterracter::UInterracter()
 {
@@ -37,12 +39,11 @@ void UInterracter::Press()
 	if (HasHit)
 		{
 			AActor* HitActor = HitResult.GetActor();
-			
-			UE_LOG(LogTemp, Warning, TEXT("Hit actor: %s"), *HitActor->GetActorNameOrLabel());
-		}
-	else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("No actor hit"));
+			AElecticitySwitch* OurSwitch = Cast<AElecticitySwitch>(HitActor);
+			if(OurSwitch->bIsOn == true)
+				{			
+					OurSwitch->TurnOff();
+				}
 		}
 }
 
@@ -51,8 +52,6 @@ bool UInterracter::GetInterractableInReach(FHitResult& OutHitResult) const
 {
 	FVector Start = GetComponentLocation();
 	FVector End = Start + GetForwardVector() * MaxInterractDistance;
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
-	DrawDebugSphere(GetWorld(), End, 10, 10, FColor::Green, false, 5);
 	return GetWorld()->SweepSingleByChannel(
 		OutHitResult, 
 		Start, End, 

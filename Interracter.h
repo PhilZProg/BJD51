@@ -33,9 +33,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	float InterractRadius = 100;	
 
-	// UPROPERTY(EditAnywhere)
-	// float HoldDistance = 200;
-
 	bool GetInterractableInReach(FHitResult& OutHitResult) const;
-
 };

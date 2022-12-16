@@ -23,6 +23,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void TurnOff();
+
+	bool bIsOn = true;
+
 private:
 	
 	UPROPERTY(VisibleAnywhere)
@@ -36,5 +40,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* ElectroParticles;
-
 };
