@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+
 UCLASS()
 class BJD51_API APlayerCharacter : public ACharacter
 {
@@ -34,8 +35,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 	class UCameraComponent* CameraComp;
 
+	//TSubclassOf<class UInterracter*> Interracter;
+
+	UPROPERTY(EditAnywhere)
+	class UInterracter* Interracter;
+
 	void MoveForward(float AxisValue);
 
 	void MoveRight(float AxisValue);
+
+	void Interract();
 
 };
