@@ -2,12 +2,26 @@
 
 
 #include "ElecticitySwitch.h"
+#include "Components/PointLightComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AElecticitySwitch::AElecticitySwitch()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	ButtonRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
+	RootComponent = ButtonRoot;
+
+	ButtonPart1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh1"));
+	ButtonPart1->SetupAttachment(ButtonRoot);
+
+	ButtonSignalLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("Signal Light"));
+	ButtonSignalLight->SetupAttachment(ButtonRoot);
+
+	ElectroParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Electro Particles"));
+	ElectroParticles->SetupAttachment(ButtonRoot);
 
 }
 

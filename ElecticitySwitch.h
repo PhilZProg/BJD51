@@ -23,4 +23,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+	
+	UPROPERTY(VisibleAnywhere)
+	class USceneComponent* ButtonRoot;
+
+	UPROPERTY(EditAnywhere)
+	class UPointLightComponent* ButtonSignalLight;
+
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* ButtonPart1;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystemComponent* ElectroParticles;
+
 };
