@@ -20,21 +20,40 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-private:
+	void Fire();
+
+public:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class USceneComponent* ToolRoot;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 	class UStaticMeshComponent* ToolMesh;
-
-	UPROPERTY(EditAnywhere, Category = "Action")
-	class UParticleSystem* FoamParticles;
-
+	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class USceneComponent* FoamSpawnPoint;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* FoamErupt;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* ImpactEffect;
+ 
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 100000;
+
+	UPROPERTY(EditAnywhere)
+	float Damage = 10.f;
+
+	bool ToolTrace(FHitResult& Hit, FVector& ShotDirection);
+
+	AController* GetOwnerContorller() const;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Combat")
+	TSubclassOf<class AProjectile> ProjectileClass;
 };

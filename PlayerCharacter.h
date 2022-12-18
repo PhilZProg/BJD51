@@ -27,6 +27,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Shoot();
+
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -35,15 +37,24 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 	class UCameraComponent* CameraComp;
 
-	//TSubclassOf<class UInterracter*> Interracter;
-
 	UPROPERTY(EditAnywhere)
 	class UInterracter* Interracter;
+
+	UPROPERTY(EditAnywhere)
+	class UChecker* Checker;
+
+	UPROPERTY()
+	class ATool* Tool;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ATool> ToolClass;
 
 	void MoveForward(float AxisValue);
 
 	void MoveRight(float AxisValue);
 
 	void Interract();
+
+	void Aim();
 
 };

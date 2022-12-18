@@ -7,6 +7,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Interracter.h"
+#include "Tool.h"
+#include "Checker.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -33,6 +35,9 @@ APlayerCharacter::APlayerCharacter()
 
 	Interracter = CreateDefaultSubobject<UInterracter>(TEXT("Interracter"));
 	Interracter->SetupAttachment(CameraComp);
+
+	Checker = CreateDefaultSubobject<UChecker>(TEXT("Checker"));
+	Checker->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
 	
 }
 
@@ -40,6 +45,12 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Tool = GetWorld()->SpawnActor<ATool>(ToolClass);
+    // Tool->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
+    // Tool->SetOwner(this);
+	//Tool->SetActorHiddenInGame(true);
+	
 }
 
 // Called every frame
@@ -56,6 +67,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Shoot);
+
 	PlayerInputComponent->BindAction(TEXT("Interract"),EInputEvent::IE_Pressed, this, &APlayerCharacter::Interract);
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"),this, &APlayerCharacter::MoveForward);
@@ -66,12 +79,20 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis(TEXT("LookRight"),this, &APawn::AddControllerYawInput);
 
-
+	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Aim);
 }
 
-void APlayerCharacter::Interract()
+void APlayerCharacter::Shoot()
 {	
-	Interracter->Press();
+	
+	AActor* OurTool = Checker->CheckAndTrigger();
+
+	if (OurTool != nullptr)
+		{
+			Tool = Cast<ATool>(OurTool);
+			Tool->Fire();
+		}
+
 }
 
 void APlayerCharacter::MoveForward(float AxisValue)
@@ -100,3 +121,12 @@ void APlayerCharacter::MoveRight(float AxisValue)
 	AddMovementInput(RightDirection, AxisValue);
 }
 
+void APlayerCharacter::Interract()
+{	
+	Interracter->Press();
+}
+
+void APlayerCharacter::Aim()
+{	
+
+}

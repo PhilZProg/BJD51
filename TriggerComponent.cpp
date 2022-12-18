@@ -30,7 +30,6 @@ void UTriggerComponent::CheckAndTrigger()
     
     for (AActor* Actor : Actors)
         {
-            
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
                     if (ToolClass)
