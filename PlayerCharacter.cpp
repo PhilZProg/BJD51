@@ -49,9 +49,6 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	CameraDefFOV = CameraComp->FieldOfView;
-
-	CapsulesRotation = GetActorRotation();
-
 }
 
 // Called every frame
@@ -150,5 +147,9 @@ void APlayerCharacter::UnAim()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
+	CapsulesRotation = GetActorRotation();
+	CapsulesRotation.Pitch = 0;
+
 	SetActorRotation(CapsulesRotation);
+
 }  

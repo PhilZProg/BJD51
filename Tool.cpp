@@ -40,11 +40,6 @@ void ATool::Fire()
 	FVector ShotDirection;
 	bool HasHit = ToolTrace(Hit, ShotDirection);
 
-	// FHitResult Hit2;
-	// const FVector Hit2TraceStart{FoamSpawnPoint->GetComponentLocation()};
-	// const FVector Hit2TraceEnd{FoamSpawnPoint->GetComponentLocation()};
-	
-
 	if (HasHit && ImpactEffect)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(this, ImpactEffect, Hit.ImpactPoint, ShotDirection.Rotation());
