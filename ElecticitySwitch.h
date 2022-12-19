@@ -40,4 +40,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* ElectroParticles;
+
 };

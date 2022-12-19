@@ -29,7 +29,6 @@ AElecticitySwitch::AElecticitySwitch()
 void AElecticitySwitch::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

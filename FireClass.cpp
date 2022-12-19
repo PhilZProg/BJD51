@@ -4,6 +4,7 @@
 #include "FireClass.h"
 #include "Components/CapsuleComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "PlayerCharacter.h"
 
 // Sets default values
 AFireClass::AFireClass()
@@ -38,8 +39,16 @@ void AFireClass::Tick(float DeltaTime)
 }
 
 float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
-{
+{	
+
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	// APlayerCharacter* Player = Cast<APlayerCharacter>(DamageCauser);
+	// if (Player->bButtonIsOn)
+	// {
+	// 	Player->TakeDamage(100, DamageEvent,EventInstigator,this);	
+	// 	return 100;
+	// }
 
 	DamageToApply = FMath::Min(Health, DamageToApply);
 

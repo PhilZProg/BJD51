@@ -147,10 +147,10 @@ void APlayerCharacter::UnAim()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	CapsulesRotation = GetActorRotation();
-	CapsulesRotation.Pitch = 0;
+	PlayerRotation = GetActorRotation();
+	PlayerRotation.Pitch = 0;
 
-	SetActorRotation(CapsulesRotation);
+	SetActorRotation(PlayerRotation);
 }  
 
 float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
@@ -161,7 +161,7 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 
 	Health -= DamageToApply;
 
-	UE_LOG(LogTemp, Warning, TEXT("Current Health: %f"), Health);
+	UE_LOG(LogTemp, Warning, TEXT("Current Player Health: %f"), Health);
 
 	// if(IsDead())
 	// 	{

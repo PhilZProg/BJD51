@@ -37,6 +37,8 @@ public:
 
 	void Shoot();
 
+	bool bButtonIsOn = true;
+
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -68,7 +70,7 @@ private:
 
 	float CameraDefFOV{};
 
-	FRotator CapsulesRotation;
+	FRotator PlayerRotation;
 
 	float CameraZoomedFOV = 60.f;
 

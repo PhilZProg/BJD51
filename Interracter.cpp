@@ -2,7 +2,7 @@
 
 
 #include "Interracter.h"
-
+#include "PlayerCharacter.h"
 #include "ElecticitySwitch.h"
 
 // Sets default values for this component's properties
@@ -40,9 +40,12 @@ void UInterracter::Press()
 		{
 			AActor* HitActor = HitResult.GetActor();
 			AElecticitySwitch* OurSwitch = Cast<AElecticitySwitch>(HitActor);
-			if(OurSwitch->bIsOn == true)
+			if(OurSwitch -> bIsOn == true)
 				{			
 					OurSwitch->TurnOff();
+					AActor* Owner = GetOwner();
+					APlayerCharacter* CompOwner = Cast<APlayerCharacter>(Owner);
+					CompOwner->bButtonIsOn = false;
 				}
 		}
 }
