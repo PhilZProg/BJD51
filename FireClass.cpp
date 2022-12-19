@@ -49,7 +49,7 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 
 	 if(IsDead())
 	 	{
-			
+			DamageCauser->Destroy();
 			Destroy();
 	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 			

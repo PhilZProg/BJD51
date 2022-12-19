@@ -88,7 +88,7 @@ void APlayerCharacter::Shoot()
 {	
 	AActor* OurTool = Checker->CheckAndTrigger();
 
-	if (OurTool != nullptr)
+	if (OurTool != nullptr && bAiming)
 		{
 			Tool = Cast<ATool>(OurTool);
 			Tool->Fire();
