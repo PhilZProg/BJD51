@@ -9,6 +9,7 @@
 #include "Interracter.h"
 #include "Tool.h"
 #include "Checker.h"
+#include "Math.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -27,7 +28,8 @@ APlayerCharacter::APlayerCharacter()
 
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComp->SetupAttachment(GetCapsuleComponent());
-	SpringArmComp->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	//SpringArmComp->bUsePawnControlRotation = true; 
+	SpringArmComp->bUsePawnControlRotation = false; // Rotate the arm based on the controller
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComp->SetupAttachment(SpringArmComp);
@@ -46,11 +48,10 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Tool = GetWorld()->SpawnActor<ATool>(ToolClass);
-    // Tool->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
-    // Tool->SetOwner(this);
-	//Tool->SetActorHiddenInGame(true);
-	
+	CameraDefFOV = CameraComp->FieldOfView;
+
+	CapsulesRotation = GetActorRotation();
+
 }
 
 // Called every frame
@@ -80,6 +81,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("LookRight"),this, &APawn::AddControllerYawInput);
 
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Aim);
+
+		PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Released, this, &APlayerCharacter::UnAim);
 }
 
 void APlayerCharacter::Shoot()
@@ -128,5 +131,24 @@ void APlayerCharacter::Interract()
 
 void APlayerCharacter::Aim()
 {	
+	bAiming = true;
 
-}
+	CameraComp->FieldOfView = CameraZoomedFOV;
+
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationRoll = true;
+}  
+
+void APlayerCharacter::UnAim()
+{	
+	bAiming = false;
+
+	CameraComp->FieldOfView = CameraDefFOV;
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+
+	SetActorRotation(CapsulesRotation);
+}  

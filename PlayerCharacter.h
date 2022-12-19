@@ -49,6 +49,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATool> ToolClass;
 
+	UPROPERTY(VisibleAnywhere)
+	bool bAiming = false;
+
+	float CameraDefFOV{};
+
+	UCapsuleComponent* Capsule;
+
+	FRotator CapsulesRotation;
+
+	float CameraZoomedFOV = 60.f;
+
 	void MoveForward(float AxisValue);
 
 	void MoveRight(float AxisValue);
@@ -57,4 +68,5 @@ private:
 
 	void Aim();
 
+	void UnAim();
 };

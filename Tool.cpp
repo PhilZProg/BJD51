@@ -31,14 +31,6 @@ ATool::ATool()
 void ATool::Fire()
 {
 
-		//UE_LOG(LogTemp, Warning, TEXT("bang!"));
-
-	//  AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, FoamSpawnPoint->GetComponentLocation(), FoamSpawnPoint->GetComponentRotation());
-	//  Projectile->SetOwner(this);
-		
-
-	//DrawDebugSphere(GetWorld(),FoamSpawnPoint->GetComponentLocation(), 10, 5, FColor::Red);
-
 	if (FoamErupt)
 		{ 
 			UGameplayStatics::SpawnEmitterAtLocation(this, FoamErupt, FoamSpawnPoint->GetComponentLocation());
@@ -47,6 +39,12 @@ void ATool::Fire()
 	FHitResult Hit; 
 	FVector ShotDirection;
 	bool HasHit = ToolTrace(Hit, ShotDirection);
+
+	// FHitResult Hit2;
+	// const FVector Hit2TraceStart{FoamSpawnPoint->GetComponentLocation()};
+	// const FVector Hit2TraceEnd{FoamSpawnPoint->GetComponentLocation()};
+	
+
 	if (HasHit && ImpactEffect)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(this, ImpactEffect, Hit.ImpactPoint, ShotDirection.Rotation());
@@ -63,7 +61,7 @@ void ATool::Fire()
 void ATool::BeginPlay()
 {
 	Super::BeginPlay();
-	//bSpawned = true;
+
 }
 
 // Called every frame
@@ -88,7 +86,8 @@ bool ATool::ToolTrace(FHitResult& Hit, FVector& ShotDirection)
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	return GetWorld()->LineTraceSingleByChannel(Hit,Location, End, ECC_Visibility, Params);
+	DrawDebugLine(GetWorld(),FoamSpawnPoint->GetComponentLocation(),End, FColor::Red, false, 2.f);
+	return GetWorld()->LineTraceSingleByChannel(Hit,FoamSpawnPoint->GetComponentLocation(), End, ECC_Visibility, Params);
 
 }
 
