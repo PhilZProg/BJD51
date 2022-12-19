@@ -27,7 +27,7 @@ public:
 
 	void Fire();
 
-public:
+private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class USceneComponent* ToolRoot;
@@ -45,7 +45,7 @@ public:
 	UParticleSystem* ImpactEffect;
  
 	UPROPERTY(EditAnywhere)
-	float MaxRange = 100000;
+	float MaxRange = 500;
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 10.f;
@@ -54,6 +54,9 @@ public:
 
 	AController* GetOwnerContorller() const;
 
-	UPROPERTY(EditDefaultsOnly,Category = "Combat")
-	TSubclassOf<class AProjectile> ProjectileClass;
+	// UPROPERTY(EditDefaultsOnly,Category = "Combat")
+	// TSubclassOf<class AProjectile> ProjectileClass;
+
+	// 	UFUNCTION()
+	// void OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

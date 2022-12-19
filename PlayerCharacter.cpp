@@ -49,6 +49,8 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	CameraDefFOV = CameraComp->FieldOfView;
+
+	Health = MaxHealth;
 }
 
 // Called every frame
@@ -79,12 +81,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Aim);
 
-		PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Released, this, &APlayerCharacter::UnAim);
+	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Released, this, &APlayerCharacter::UnAim);
 }
 
 void APlayerCharacter::Shoot()
 {	
-	
 	AActor* OurTool = Checker->CheckAndTrigger();
 
 	if (OurTool != nullptr)
@@ -92,7 +93,6 @@ void APlayerCharacter::Shoot()
 			Tool = Cast<ATool>(OurTool);
 			Tool->Fire();
 		}
-
 }
 
 void APlayerCharacter::MoveForward(float AxisValue)
@@ -151,5 +151,41 @@ void APlayerCharacter::UnAim()
 	CapsulesRotation.Pitch = 0;
 
 	SetActorRotation(CapsulesRotation);
-
 }  
+
+float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	DamageToApply = FMath::Min(Health, DamageToApply);
+
+	Health -= DamageToApply;
+
+	UE_LOG(LogTemp, Warning, TEXT("Current Health: %f"), Health);
+
+	// if(IsDead())
+	// 	{
+	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
+			
+	// 		if (GameMode != nullptr)
+	// 			{
+	// 				GameMode->PawnKilled(this);
+	// 			}
+
+	// 		DetachFromControllerPendingDestroy();
+			
+	// 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	// 	}
+
+	return DamageToApply;
+}
+
+bool APlayerCharacter::IsDead() const
+{
+	return Health <= 0;
+}
+
+float APlayerCharacter::GetCurrentHealth() const
+{
+	return Health / MaxHealth;
+}

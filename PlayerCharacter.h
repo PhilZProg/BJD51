@@ -27,6 +27,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetCurrentHealth() const;
+
 	void Shoot();
 
 private:
@@ -52,9 +60,13 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	bool bAiming = false;
 
-	float CameraDefFOV{};
+	UPROPERTY(EditDefaultsOnly)
+	float MaxHealth = 100;
 
-	UCapsuleComponent* Capsule;
+	UPROPERTY(VisibleAnywhere)
+	float Health{};
+
+	float CameraDefFOV{};
 
 	FRotator CapsulesRotation;
 

@@ -2,11 +2,9 @@
 
 
 #include "Tool.h"
-//#include "Projectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/DamageEvents.h"
 #include "Particles/ParticleSystemComponent.h"
-#include "Projectile.h"
 
 
 
@@ -81,7 +79,6 @@ bool ATool::ToolTrace(FHitResult& Hit, FVector& ShotDirection)
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	DrawDebugLine(GetWorld(),FoamSpawnPoint->GetComponentLocation(),End, FColor::Red, false, 2.f);
 	return GetWorld()->LineTraceSingleByChannel(Hit,FoamSpawnPoint->GetComponentLocation(), End, ECC_Visibility, Params);
 
 }
