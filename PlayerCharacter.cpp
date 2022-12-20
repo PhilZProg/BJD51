@@ -40,7 +40,16 @@ APlayerCharacter::APlayerCharacter()
 
 	Checker = CreateDefaultSubobject<UChecker>(TEXT("Checker"));
 	Checker->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
-	
+
+	Health = MaxHealth;
+
+	ShootRate = 0.2f;	
+
+	bShouldShoot = true;
+
+	bShooting = false;
+
+	bDead = false;
 }
 
 // Called when the game starts or when spawned
@@ -49,15 +58,12 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	CameraDefFOV = CameraComp->FieldOfView;
-
-	Health = MaxHealth;
 }
 
 // Called every frame
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -67,7 +73,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
-	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Shoot);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Shooting);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Released, this, &APlayerCharacter::NotShooting);
+
 
 	PlayerInputComponent->BindAction(TEXT("Interract"),EInputEvent::IE_Pressed, this, &APlayerCharacter::Interract);
 
@@ -79,79 +89,143 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis(TEXT("LookRight"),this, &APawn::AddControllerYawInput);
 
+
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Aim);
 
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Released, this, &APlayerCharacter::UnAim);
 }
 
-void APlayerCharacter::Shoot()
-{	
-	AActor* OurTool = Checker->CheckAndTrigger();
+void APlayerCharacter::Shooting()
+{
+	if (!bDead)
+	{
+		bShooting = true;
+		StartAutoShootTimer();
+	}
+} 
 
-	if (OurTool != nullptr && bAiming)
+void APlayerCharacter::NotShooting()
+{
+	if (!bDead)
 		{
-			Tool = Cast<ATool>(OurTool);
-			Tool->Fire();
+			bShooting = false;
+		}
+	
+}
+
+void APlayerCharacter::StartAutoShootTimer()
+{
+	if (!bDead)
+		{
+			if (bShouldShoot)
+				{
+					AActor* OurTool = Checker->CheckAndTrigger();
+
+					if (OurTool != nullptr && bAiming)
+						{
+							Tool = Cast<ATool>(OurTool);
+							Tool->Fire();
+							bShouldShoot = false;
+							GetWorldTimerManager().SetTimer(
+								AutoShootTimer, 
+								this, 
+								&APlayerCharacter::AutoShootTimerReset, 
+								ShootRate);
+						}
+				}
+		}
+}
+
+void APlayerCharacter::AutoShootTimerReset()
+{
+	if (!bDead)
+		{
+			bShouldShoot = true;
+			if (bShooting)
+				{
+					StartAutoShootTimer();
+				}
 		}
 }
 
 void APlayerCharacter::MoveForward(float AxisValue)
 {
-	// find out which way is forward
-	const FRotator Rotation = Controller->GetControlRotation();
-	const FRotator YawRotation(0, Rotation.Yaw, 0);
+	if (!bDead)
+		{
+			// find out which way is forward
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-	// get forward vector
-	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+			// get forward vector
+			const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-	// add movement
-	AddMovementInput(ForwardDirection, AxisValue);
+			// add movement
+			AddMovementInput(ForwardDirection, AxisValue);
+		}
+	
 }
 
 void APlayerCharacter::MoveRight(float AxisValue)
 {
-	// find out which way is forward
-	const FRotator Rotation = Controller->GetControlRotation();
-	const FRotator YawRotation(0, Rotation.Yaw, 0);
+	if (!bDead)
+		{
+			// find out which way is forward
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-	// get right vector 
-	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+			// get right vector 
+			const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-	// add movement
-	AddMovementInput(RightDirection, AxisValue);
+			// add movement
+			AddMovementInput(RightDirection, AxisValue);
+		}
+	
 }
 
 void APlayerCharacter::Interract()
 {	
-	Interracter->Press();
+	if (!bDead)
+		{
+			Interracter->Press();
+		}
+	
 }
 
 void APlayerCharacter::Aim()
 {	
-	bAiming = true;
+	if (!bDead)
+		{
+			bAiming = true;
 
-	CameraComp->FieldOfView = CameraZoomedFOV;
+			CameraComp->FieldOfView = CameraZoomedFOV;
 
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = true;
+			bUseControllerRotationPitch = true;
+			bUseControllerRotationYaw = true;
+			bUseControllerRotationRoll = true;
+		}
+	
 }  
 
 void APlayerCharacter::UnAim()
 {	
-	bAiming = false;
+	// if (!bDead)
+	// 	{
+			bAiming = false;
 
-	CameraComp->FieldOfView = CameraDefFOV;
+			CameraComp->FieldOfView = CameraDefFOV;
 
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+			bUseControllerRotationPitch = false;
+			bUseControllerRotationYaw = false;
+			bUseControllerRotationRoll = false;
 
-	PlayerRotation = GetActorRotation();
-	PlayerRotation.Pitch = 0;
+			PlayerRotation = GetActorRotation();
+			PlayerRotation.Pitch = 0;
 
-	SetActorRotation(PlayerRotation);
-}  
+			SetActorRotation(PlayerRotation);
+		//}
+	
+} 
+
 
 float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
@@ -161,10 +235,14 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 
 	Health -= DamageToApply;
 
-	UE_LOG(LogTemp, Warning, TEXT("Current Player Health: %f"), Health);
+	
 
-	// if(IsDead())
-	// 	{
+	if(IsDead())
+		{
+			bDead = true;
+			UE_LOG(LogTemp, Warning, TEXT("Current Player Health: %f"), Health);
+			//DestroyPlayerInputComponent();
+			
 	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 			
 	// 		if (GameMode != nullptr)
@@ -172,10 +250,10 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 	// 				GameMode->PawnKilled(this);
 	// 			}
 
-	// 		DetachFromControllerPendingDestroy();
+	  		//DetachFromControllerPendingDestroy();
 			
-	// 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// 	}
+	//  		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	  	}
 
 	return DamageToApply;
 }

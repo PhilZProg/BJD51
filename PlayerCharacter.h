@@ -35,8 +35,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetCurrentHealth() const;
 
-	void Shoot();
-
 	bool bButtonIsOn = true;
 
 private:
@@ -74,6 +72,16 @@ private:
 
 	float CameraZoomedFOV = 60.f;
 
+	bool bShooting;
+
+	bool bShouldShoot;
+
+	float ShootRate;
+
+	bool bDead;
+
+	FTimerHandle AutoShootTimer;
+
 	void MoveForward(float AxisValue);
 
 	void MoveRight(float AxisValue);
@@ -83,4 +91,13 @@ private:
 	void Aim();
 
 	void UnAim();
+
+	void Shooting();
+
+	void NotShooting();
+
+	void StartAutoShootTimer();
+
+	UFUNCTION()
+	void AutoShootTimerReset();
 };

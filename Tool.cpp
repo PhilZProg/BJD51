@@ -50,7 +50,7 @@ void ATool::Fire()
 					//added code inside
 					AActor* OurPlayerChar = GetOwner();
 					APlayerCharacter* OurPlayerCharacter = Cast<APlayerCharacter>(OurPlayerChar);
-					if (OurPlayerCharacter->bButtonIsOn)
+					if (OurPlayerCharacter->bButtonIsOn && Hit.GetActor()->ActorHasTag(AcceptableTag))
 					{
 						OurPlayerCharacter->TakeDamage(100, DamageEvent,OwnerController,this);
 					}		

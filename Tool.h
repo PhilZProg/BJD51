@@ -54,6 +54,9 @@ private:
 
 	AController* GetOwnerContorller() const;
 
+	UPROPERTY(EditAnywhere)
+	FName AcceptableTag;
+
 	// UPROPERTY(EditDefaultsOnly,Category = "Combat")
 	// TSubclassOf<class AProjectile> ProjectileClass;
 

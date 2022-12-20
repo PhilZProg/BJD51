@@ -54,7 +54,7 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 
 	Health -= DamageToApply;
 
-	UE_LOG(LogTemp, Warning, TEXT("Current Health: %f"), Health);
+	UE_LOG(LogTemp, Warning, TEXT("Fire Health: %f"), Health);
 
 	 if(IsDead())
 	 	{
