@@ -39,6 +39,7 @@ void UHeadWearTrigger::CheckAndTrigger()
                             HeadWeard = GetWorld()->SpawnActor<AWearable>(HeadWeardClass);
                             HeadWeard->AttachToComponent(OurCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("Mask"));
                             HeadWeard->SetOwner(OurCharacter);
+                            OurCharacter->bWearingCloth = true;
                         }
                     GetOwner()->Destroy();
                 }

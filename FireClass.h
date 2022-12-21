@@ -39,9 +39,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UParticleSystemComponent* FireParticles;
 
-	// UPROPERTY(EditDefaultsOnly)
-	// float MaxHealth = 100;
-
 	UPROPERTY(EditDefaultsOnly)
 	float Health = 100;
 

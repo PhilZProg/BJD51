@@ -27,8 +27,6 @@ AFireClass::AFireClass()
 void AFireClass::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Health = MaxHealth;
 }
 
 // Called every frame

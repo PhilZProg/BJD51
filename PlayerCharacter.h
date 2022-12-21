@@ -45,6 +45,10 @@ public:
 
 	bool bHasTool = false;
 
+	bool bCrouch;
+
+	bool bWearingCloth = false;
+
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -88,7 +92,7 @@ private:
 
 	bool bDead;
 
-	bool bCrouch;
+
 
 	FTimerHandle AutoShootTimer;
 

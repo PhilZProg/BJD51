@@ -32,9 +32,13 @@ void UHurtPlayer::CheckAndTrigger()
         {
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
-                    FDamageEvent DamageEvent;
-					AController* OwnerController = nullptr; 
-                    Actor->TakeDamage(Damage, DamageEvent,OwnerController,nullptr);
+                    APlayerCharacter* OurCharacter = Cast<APlayerCharacter>(Actor);
+                    if (OurCharacter->bCrouch == false || OurCharacter->bWearingCloth == false)
+                    {
+                        FDamageEvent DamageEvent;
+                        AController* OwnerController = nullptr; 
+                        Actor->TakeDamage(Damage, DamageEvent,OwnerController,nullptr);
+                    }
                 }
         }
 }
