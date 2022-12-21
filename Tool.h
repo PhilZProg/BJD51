@@ -56,10 +56,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	FName AcceptableTag;
-
-	// UPROPERTY(EditDefaultsOnly,Category = "Combat")
-	// TSubclassOf<class AProjectile> ProjectileClass;
-
-	// 	UFUNCTION()
-	// void OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

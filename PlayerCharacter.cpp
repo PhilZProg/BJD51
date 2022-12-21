@@ -250,13 +250,10 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 
 	Health -= DamageToApply;
 
-	
-
 	if(IsDead())
 		{
 			bDead = true;
 			UE_LOG(LogTemp, Warning, TEXT("Current Player Health: %f"), Health);
-			//DestroyPlayerInputComponent();
 			
 	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 			
