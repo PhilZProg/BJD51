@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "PlayerCharacter.h"
+#include "Smoke.h"
 
 // Sets default values
 AFireClass::AFireClass()
@@ -53,6 +54,19 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 			APawn* Pers = EventInstigator->GetPawn();
 			APlayerCharacter* OurPlayerCharacter = Cast<APlayerCharacter>(Pers);
         	OurPlayerCharacter->bHasTool = false;
+
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation1, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation2, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation3, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation4, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation5, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation6, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation7, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation8, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation9, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation10, SmokeRotation);
+			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation11, SmokeRotation);
+			
 			Destroy();
 	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 			
