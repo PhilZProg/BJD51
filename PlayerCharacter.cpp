@@ -50,6 +50,8 @@ APlayerCharacter::APlayerCharacter()
 	bShooting = false;
 
 	bDead = false;
+
+	bCrouch = false;
 }
 
 // Called when the game starts or when spawned
@@ -81,6 +83,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("Interract"),EInputEvent::IE_Pressed, this, &APlayerCharacter::Interract);
 
+
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"),this, &APlayerCharacter::MoveForward);
 
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"),this, &APlayerCharacter::MoveRight);
@@ -93,11 +96,14 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Aim);
 
 	PlayerInputComponent->BindAction(TEXT("Aim"), EInputEvent::IE_Released, this, &APlayerCharacter::UnAim);
+
+
+	PlayerInputComponent->BindAction(TEXT("Crouch"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Crouching);
 }
 
 void APlayerCharacter::Shooting()
 {
-	if (!bDead)
+	if (!bDead && !bCrouch)
 	{
 		bShooting = true;
 		StartAutoShootTimer();
@@ -110,7 +116,6 @@ void APlayerCharacter::NotShooting()
 		{
 			bShooting = false;
 		}
-	
 }
 
 void APlayerCharacter::StartAutoShootTimer()
@@ -193,7 +198,7 @@ void APlayerCharacter::Interract()
 
 void APlayerCharacter::Aim()
 {	
-	if (!bDead)
+	if (!bDead && !bCrouch && bHasTool)
 		{
 			bAiming = true;
 
@@ -208,8 +213,6 @@ void APlayerCharacter::Aim()
 
 void APlayerCharacter::UnAim()
 {	
-	// if (!bDead)
-	// 	{
 			bAiming = false;
 
 			CameraComp->FieldOfView = CameraDefFOV;
@@ -222,10 +225,22 @@ void APlayerCharacter::UnAim()
 			PlayerRotation.Pitch = 0;
 
 			SetActorRotation(PlayerRotation);
-		//}
-	
 } 
 
+void APlayerCharacter::Crouching()
+{
+	if (!bCrouch)
+		{
+			bCrouch = true;
+			GetCharacterMovement()->MaxWalkSpeed = 250.f; 
+		}
+	else
+		{
+			bCrouch = false;
+			GetCharacterMovement()->MaxWalkSpeed = 600.f; 
+		}
+	
+}
 
 float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
@@ -261,6 +276,16 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 bool APlayerCharacter::IsDead() const
 {
 	return Health <= 0;
+}
+
+bool APlayerCharacter::IsCrouching() const
+{
+	return bCrouch;
+}
+
+bool APlayerCharacter::IsAiming() const
+{
+	return bAiming;
 }
 
 float APlayerCharacter::GetCurrentHealth() const

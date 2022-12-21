@@ -33,9 +33,17 @@ public:
 	bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
+	bool IsCrouching() const;
+
+	UFUNCTION(BlueprintPure)
+	bool IsAiming() const;
+
+	UFUNCTION(BlueprintPure)
 	float GetCurrentHealth() const;
 
 	bool bButtonIsOn = true;
+
+	bool bHasTool = false;
 
 private:
 
@@ -57,7 +65,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATool> ToolClass;
 
-	UPROPERTY(VisibleAnywhere)
+	//UPROPERTY(VisibleAnywhere)
 	bool bAiming = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -80,6 +88,8 @@ private:
 
 	bool bDead;
 
+	bool bCrouch;
+
 	FTimerHandle AutoShootTimer;
 
 	void MoveForward(float AxisValue);
@@ -91,6 +101,8 @@ private:
 	void Aim();
 
 	void UnAim();
+
+	void Crouching();
 
 	void Shooting();
 

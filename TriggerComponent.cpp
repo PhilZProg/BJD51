@@ -38,6 +38,7 @@ void UTriggerComponent::CheckAndTrigger()
                             Tool = GetWorld()->SpawnActor<ATool>(ToolClass);
                             Tool->AttachToComponent(OurCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
                             Tool->SetOwner(OurCharacter);
+                            OurCharacter->bHasTool = true;
                         }
                     GetOwner()->Destroy();
                 }
