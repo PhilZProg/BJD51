@@ -28,9 +28,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
-	UFUNCTION(BlueprintPure)
-	float GetCurrentHealth() const;
-
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -42,10 +39,10 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UParticleSystemComponent* FireParticles;
 
-	UPROPERTY(EditDefaultsOnly)
-	float MaxHealth = 100;
+	// UPROPERTY(EditDefaultsOnly)
+	// float MaxHealth = 100;
 
-	UPROPERTY(VisibleAnywhere)
-	float Health{};
+	UPROPERTY(EditDefaultsOnly)
+	float Health = 100;
 
 };

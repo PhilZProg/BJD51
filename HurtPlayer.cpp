@@ -33,18 +33,8 @@ void UHurtPlayer::CheckAndTrigger()
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
                     FDamageEvent DamageEvent;
-					AController* OwnerController = GetOwnerContorller();
+					AController* OwnerController = nullptr; 
                     Actor->TakeDamage(Damage, DamageEvent,OwnerController,nullptr);
                 }
         }
-}
-
-AController* UHurtPlayer::GetOwnerContorller() const
-{
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());
-	if (OwnerPawn == nullptr)
-		{
-			return nullptr;
-		}
-	return OwnerPawn->GetController();	
 }

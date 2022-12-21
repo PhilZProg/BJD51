@@ -47,14 +47,14 @@ void ATool::Fire()
 				{
 					FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
 					AController* OwnerController = GetOwnerContorller();
-					//added code inside
 					AActor* OurPlayerChar = GetOwner();
 					APlayerCharacter* OurPlayerCharacter = Cast<APlayerCharacter>(OurPlayerChar);
+
 					if (OurPlayerCharacter->bButtonIsOn && Hit.GetActor()->ActorHasTag(AcceptableTag))
-					{
-						OurPlayerCharacter->TakeDamage(100, DamageEvent,OwnerController,this);
-					}		
-					//added code inside	
+						{
+							OurPlayerCharacter->TakeDamage(100, DamageEvent,OwnerController,this);
+						}		
+
 					Hit.GetActor()->TakeDamage(Damage, DamageEvent,OwnerController,this);
 				}
 		}

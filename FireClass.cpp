@@ -28,7 +28,7 @@ void AFireClass::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Health = MaxHealth;
+	// Health = MaxHealth;
 }
 
 // Called every frame
@@ -43,13 +43,6 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	// APlayerCharacter* Player = Cast<APlayerCharacter>(DamageCauser);
-	// if (Player->bButtonIsOn)
-	// {
-	// 	Player->TakeDamage(100, DamageEvent,EventInstigator,this);	
-	// 	return 100;
-	// }
-
 	DamageToApply = FMath::Min(Health, DamageToApply);
 
 	Health -= DamageToApply;
@@ -59,6 +52,9 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 	 if(IsDead())
 	 	{
 			DamageCauser->Destroy();
+			APawn* Pers = EventInstigator->GetPawn();
+			APlayerCharacter* OurPlayerCharacter = Cast<APlayerCharacter>(Pers);
+        	OurPlayerCharacter->bHasTool = false;
 			Destroy();
 	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 			
@@ -78,9 +74,4 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 bool AFireClass::IsDead() const
 {
 	return Health <= 0;
-}
-
-float AFireClass::GetCurrentHealth() const
-{
-	return Health / MaxHealth;
 }

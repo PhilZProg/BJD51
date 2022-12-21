@@ -3,7 +3,6 @@
 
 #include "Checker.h"
 #include "PlayerCharacter.h"
-#include "Tool.h"
 
 UChecker::UChecker()
 {

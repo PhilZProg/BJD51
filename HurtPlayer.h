@@ -32,6 +32,4 @@ private:
 	float Damage = 10.f;
 
 	void CheckAndTrigger();
-
-	AController* GetOwnerContorller() const;
 };
