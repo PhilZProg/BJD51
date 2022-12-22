@@ -13,5 +13,12 @@ UCLASS()
 class BJD51_API AFireFightGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	void PawnKilled(APawn* PawnKilled);
+
+private:
+	void EndGame(bool bIsPlayerWinner);
 	
 };

@@ -49,6 +49,8 @@ public:
 
 	bool bWearingCloth = false;
 
+	bool bDead{};
+
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -89,10 +91,6 @@ private:
 	bool bShouldShoot;
 
 	float ShootRate;
-
-	bool bDead;
-
-
 
 	FTimerHandle AutoShootTimer;
 

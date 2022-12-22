@@ -10,6 +10,7 @@
 #include "Tool.h"
 #include "Checker.h"
 #include "Math.h"
+#include "FireFightGameMode.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -253,18 +254,12 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 	if(IsDead())
 		{
 			bDead = true;
-			UE_LOG(LogTemp, Warning, TEXT("Current Player Health: %f"), Health);
 			
-	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
-			
-	// 		if (GameMode != nullptr)
-	// 			{
-	// 				GameMode->PawnKilled(this);
-	// 			}
-
-	  		//DetachFromControllerPendingDestroy();
-			
-	//  		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			AFireFightGameMode* GameMode = GetWorld()->GetAuthGameMode<AFireFightGameMode>();
+			if (GameMode != nullptr)
+				{
+					GameMode->PawnKilled(this);
+				}
 	  	}
 
 	return DamageToApply;
