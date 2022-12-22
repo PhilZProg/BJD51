@@ -2,6 +2,8 @@
 
 
 #include "VictoryComponent.h"
+#include "PlayerCharacter.h"
+#include "Components/CapsuleComponent.h"
 
 UVictoryComponent::UVictoryComponent()
 {
@@ -30,9 +32,12 @@ void UVictoryComponent::CheckAndTrigger()
         {
             if (Actor->ActorHasTag(AcceptableActorTag))
                 {
-                  APawn* Player = Cast<APawn>(Actor);
-                  AController* PlayerController = Player->GetController();
-                  PlayerController->GameHasEnded(Player, true);
+                    // APlayerCharacter* PlayerChar = Cast<APlayerCharacter>(Actor);
+                    // PlayerChar->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+                    APawn* Player = Cast<APawn>(Actor);
+                    AController* PlayerController = Player->GetController();
+                    PlayerController->GameHasEnded(Player, true);
+                    this->DestroyComponent();
                 }
         }
 }

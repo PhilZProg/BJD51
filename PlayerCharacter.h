@@ -45,11 +45,11 @@ public:
 
 	bool bHasTool = false;
 
-	bool bCrouch;
+	bool bCrouch{};
 
 	bool bWearingCloth = false;
 
-	bool bDead{};
+	bool bDead;
 
 private:
 
@@ -71,7 +71,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ATool> ToolClass;
 
-	//UPROPERTY(VisibleAnywhere)
 	bool bAiming = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -109,6 +108,8 @@ private:
 	void Shooting();
 
 	void NotShooting();
+
+	void Jump();
 
 	void StartAutoShootTimer();
 

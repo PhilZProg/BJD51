@@ -4,6 +4,7 @@
 #include "FireFightPlayerController.h"
 #include "TimerManager.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 void AFireFightPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
 {
@@ -30,7 +31,7 @@ void AFireFightPlayerController::GameHasEnded(class AActor* EndGameFocus, bool b
                 }
         }
 
-    GetWorldTimerManager().SetTimer(RestartTimer,this, &APlayerController::RestartLevel, RestartDelay);
+    GetWorldTimerManager().SetTimer(Timer,this, &AFireFightPlayerController::BackToMainMenu, Delay);
 }
 
 void AFireFightPlayerController::BeginPlay()
@@ -45,3 +46,10 @@ void AFireFightPlayerController::BeginPlay()
                     HUD->AddToViewport();
                 }
 }
+
+void AFireFightPlayerController::BackToMainMenu()
+{
+    UGameplayStatics::OpenLevel(GetWorld(),FName("MainMenu"));
+}
+
+

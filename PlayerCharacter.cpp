@@ -11,6 +11,8 @@
 #include "Checker.h"
 #include "Math.h"
 #include "FireFightGameMode.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -74,7 +76,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed, this, &APlayerCharacter::Jump);
 
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Shooting);
@@ -100,6 +102,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 
 	PlayerInputComponent->BindAction(TEXT("Crouch"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Crouching);
+
 }
 
 void APlayerCharacter::Shooting()
@@ -116,6 +119,14 @@ void APlayerCharacter::NotShooting()
 	if (!bDead)
 		{
 			bShooting = false;
+		}
+}
+
+void APlayerCharacter::Jump()
+{
+	if (!bDead)
+		{
+			ACharacter::Jump();
 		}
 }
 
@@ -254,12 +265,11 @@ float APlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const
 	if(IsDead())
 		{
 			bDead = true;
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			
-			AFireFightGameMode* GameMode = GetWorld()->GetAuthGameMode<AFireFightGameMode>();
-			if (GameMode != nullptr)
-				{
-					GameMode->PawnKilled(this);
-				}
+			APawn* Player = Cast<APawn>(this);
+            AController* PlayerController = Player->GetController();
+            PlayerController->GameHasEnded(Player, false);
 	  	}
 
 	return DamageToApply;

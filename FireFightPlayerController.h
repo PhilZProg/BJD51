@@ -23,9 +23,9 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float RestartDelay = 5.0f;
+	float Delay = 5.0f;
 
-	FTimerHandle RestartTimer;
+	FTimerHandle Timer;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUserWidget> LooseScreenClass;
@@ -38,5 +38,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* HUD;
+
+	void BackToMainMenu();
 	
 };
