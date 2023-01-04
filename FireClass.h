@@ -20,8 +20,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -29,9 +27,6 @@ public:
 	bool IsDead() const;
 
 private:
-
-	// UPROPERTY()
-	// class ASmoke* Smoke;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ASmoke> SmokeClass;

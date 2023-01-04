@@ -14,7 +14,7 @@
 ATool::ATool()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	ToolRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Tool Root"));
 	RootComponent = ToolRoot;
@@ -65,12 +65,6 @@ void ATool::BeginPlay()
 {
 	Super::BeginPlay();
 
-}
-
-// Called every frame
-void ATool::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 bool ATool::ToolTrace(FHitResult& Hit, FVector& ShotDirection)

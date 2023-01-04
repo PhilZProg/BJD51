@@ -11,7 +11,7 @@
 AFireClass::AFireClass()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	FireRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Fire Root"));
 	RootComponent = FireRoot;
@@ -28,13 +28,6 @@ AFireClass::AFireClass()
 void AFireClass::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-// Called every frame
-void AFireClass::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
@@ -68,16 +61,6 @@ float AFireClass::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 			GetWorld()->SpawnActor<ASmoke>(SmokeClass, SmokeLocation11, SmokeRotation);
 			
 			Destroy();
-	// 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
-			
-	// 		if (GameMode != nullptr)
-	// 			{
-	// 				GameMode->PawnKilled(this);
-	// 			}
-
-	// 		DetachFromControllerPendingDestroy();
-			
-	// 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	 	}
 
 	return DamageToApply;

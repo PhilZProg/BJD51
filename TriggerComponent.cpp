@@ -7,21 +7,15 @@
 
 UTriggerComponent::UTriggerComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
+
+     this->OnComponentBeginOverlap.AddDynamic(this, &UTriggerComponent::OnOverlapBegin);
 }
 
 void UTriggerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-    CheckAndTrigger();
-}
-
 
 void UTriggerComponent::CheckAndTrigger()
 {
@@ -41,6 +35,19 @@ void UTriggerComponent::CheckAndTrigger()
                             OurCharacter->bHasTool = true;
                         }
                     GetOwner()->Destroy();
+                }
+        }
+}
+
+void UTriggerComponent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    if(OtherActor->ActorHasTag(AcceptableActorTag))
+        {  
+            APlayerCharacter* OurCharacter = Cast<APlayerCharacter>(OtherActor);
+            if(!OurCharacter->bHasTool)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("Tool handled"));
+                    CheckAndTrigger();
                 }
         }
 }

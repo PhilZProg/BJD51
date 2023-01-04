@@ -7,21 +7,15 @@
 
 UHeadWearTrigger::UHeadWearTrigger()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
+
+    this->OnComponentBeginOverlap.AddDynamic(this, &UHeadWearTrigger::OnOverlapBegin); 
 }
 
 void UHeadWearTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void UHeadWearTrigger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-    CheckAndTrigger();
-}
-
 
 void UHeadWearTrigger::CheckAndTrigger()
 {
@@ -44,4 +38,10 @@ void UHeadWearTrigger::CheckAndTrigger()
                     GetOwner()->Destroy();
                 }
         }
+}
+
+void UHeadWearTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    CheckAndTrigger();
+    UE_LOG(LogTemp, Warning, TEXT("Cloth worn"));
 }

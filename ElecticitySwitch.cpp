@@ -9,7 +9,7 @@
 AElecticitySwitch::AElecticitySwitch()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	ButtonRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
 	RootComponent = ButtonRoot;
@@ -29,12 +29,6 @@ AElecticitySwitch::AElecticitySwitch()
 void AElecticitySwitch::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-// Called every frame
-void AElecticitySwitch::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void AElecticitySwitch::TurnOff()

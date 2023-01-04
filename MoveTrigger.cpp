@@ -6,28 +6,15 @@
 
 UMoveTrigger::UMoveTrigger()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
+
+    this->OnComponentBeginOverlap.AddDynamic(this, &UMoveTrigger::OnOverlapBegin); 
+	this->OnComponentEndOverlap.AddDynamic(this, &UMoveTrigger::OnOverlapEnd); 
 }
 
 void UMoveTrigger::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-
-void UMoveTrigger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-    
-    AActor* Actor = GetAcceptableActor();
-    if (Actor != nullptr)
-    {
-        Mover->SetShouldMove(true);
-    }
-    else
-    {
-        Mover->SetShouldMove(false);
-    }
 }
 
 void UMoveTrigger::SetMover(UMover* NewMover)
@@ -50,5 +37,21 @@ AActor* UMoveTrigger::GetAcceptableActor() const
     }
 
     return nullptr;
+}
 
+void UMoveTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    AActor* Actor = GetAcceptableActor();
+    if (Actor != nullptr)
+    {
+    Mover->SetShouldMove(true);
+    UE_LOG(LogTemp, Warning, TEXT("Moving"));
+    }
+
+}
+
+void UMoveTrigger::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+    Mover->SetShouldMove(false);
+    UE_LOG(LogTemp, Warning, TEXT("Not moving"));
 }

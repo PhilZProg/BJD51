@@ -7,21 +7,15 @@
 
 UVictoryComponent::UVictoryComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
+
+     this->OnComponentBeginOverlap.AddDynamic(this, &UVictoryComponent::OnOverlapBegin); 
 }
 
 void UVictoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void UVictoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-    CheckAndTrigger();
-}
-
 
 void UVictoryComponent::CheckAndTrigger()
 {
@@ -40,4 +34,10 @@ void UVictoryComponent::CheckAndTrigger()
                     this->DestroyComponent();
                 }
         }
+}
+
+void UVictoryComponent::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    UE_LOG(LogTemp, Warning, TEXT("Victory"));
+    CheckAndTrigger();
 }

@@ -7,7 +7,7 @@
 AWearable::AWearable()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	WearableRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Wearable Root"));
 	RootComponent = WearableRoot;
@@ -23,11 +23,3 @@ void AWearable::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
-// Called every frame
-void AWearable::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

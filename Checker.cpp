@@ -6,20 +6,13 @@
 
 UChecker::UChecker()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UChecker::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void UChecker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-}
-
 
 AActor* UChecker::CheckAndTrigger()
 {
