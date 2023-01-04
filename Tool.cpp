@@ -64,7 +64,6 @@ void ATool::Fire()
 void ATool::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 bool ATool::ToolTrace(FHitResult& Hit, FVector& ShotDirection)
@@ -83,7 +82,7 @@ bool ATool::ToolTrace(FHitResult& Hit, FVector& ShotDirection)
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	return GetWorld()->LineTraceSingleByChannel(Hit,FoamSpawnPoint->GetComponentLocation(), End, ECC_Visibility, Params);
+	return GetWorld()->LineTraceSingleByChannel(Hit,FoamSpawnPoint->GetComponentLocation(), End, ECC_GameTraceChannel2, Params);
 
 }
 
